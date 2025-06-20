@@ -1,3 +1,10 @@
+using Eventify.Platform.API.Profiles.Application.ACL;
+using Eventify.Platform.API.Profiles.Application.Internal.CommandServices;
+using Eventify.Platform.API.Profiles.Application.Internal.QueryServices;
+using Eventify.Platform.API.Profiles.Domain.Repositories;
+using Eventify.Platform.API.Profiles.Domain.Services;
+using Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.Profiles.Interfaces.ACL;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -50,6 +57,11 @@ builder.Services.AddSwaggerGen(options => {
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Profiles Bounded Context
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 
 var app = builder.Build();
