@@ -1,3 +1,8 @@
+using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
+using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
+using Eventify.Platform.API.Planning.Domain.Repositories;
+using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -46,6 +51,12 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 // Dependency Injection
+
+// Planning Bounded Context
+
+builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.AddScoped<IQuoteCommandService, QuoteCommandService>();
+builder.Services.AddScoped<IQuoteQueryService, QuoteQueryService>();
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
