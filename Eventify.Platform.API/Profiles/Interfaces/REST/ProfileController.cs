@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using Eventify.Platform.API.Profiles.Domain.Model.Queries;
+using Eventify.Platform.API.Profiles.Domain.Model.ValueObjects;
 using Eventify.Platform.API.Profiles.Domain.Services;
 using Eventify.Platform.API.Profiles.Interfaces.REST.Resources;
 using Eventify.Platform.API.Profiles.Interfaces.REST.Transform;
@@ -29,7 +30,20 @@ public class ProfilesController(
         var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
         return Ok(profileResource);
     }
-
+    
+    [HttpGet("email/{email}")]
+    [SwaggerOperation("Get Profile by Email", "Get a profile by its email address.", OperationId = "GetProfileByEmail")]
+    [SwaggerResponse(200, "The profile was found and returned.", typeof(ProfileResource))]
+    [SwaggerResponse(404, "The profile was not found.")]
+    public async Task<IActionResult> GetProfileByEmail(string email)
+    {
+        var getProfileByEmailQuery = new GetProfileByEmailQuery(new EmailAddress(email));
+        var profile = await profileQueryService.Handle(getProfileByEmailQuery);
+        if (profile is null) return NotFound();
+        var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
+        return Ok(profileResource);
+    }
+    
     [HttpPost]
     [SwaggerOperation("Create New Profile", "Create a new profile.", OperationId = "CreateProfile")]
     [SwaggerResponse(201, "The profile was created.", typeof(ProfileResource))]
@@ -42,7 +56,7 @@ public class ProfilesController(
         var profileResource = ProfileResourceFromEntityAssembler.ToResourceFromEntity(profile);
         return CreatedAtAction(nameof(GetProfileById), new { profileId = profile.Id }, profileResource);
     }
-
+    
     [HttpGet]
     [SwaggerOperation("Get All Profiles", "Get all profiles.", OperationId = "GetAllProfiles")]
     [SwaggerResponse(200, "The profiles were found and returned.", typeof(IEnumerable<ProfileResource>))]
