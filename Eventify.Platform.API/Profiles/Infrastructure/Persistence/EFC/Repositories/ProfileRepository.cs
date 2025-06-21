@@ -11,6 +11,6 @@ public class ProfileRepository(AppDbContext context) : BaseRepository<Profile>(c
 {
     public async Task<Profile?> FindByEmailAsync(EmailAddress email)
     {
-        return await Context.Set<Profile>().FirstOrDefaultAsync(p=> p.Email == email);
+        return await Context.Set<Profile>().FirstOrDefaultAsync(p => p.Email.Address == email.Address);
     }
 }
