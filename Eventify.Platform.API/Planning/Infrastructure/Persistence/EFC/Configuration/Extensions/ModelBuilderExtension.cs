@@ -31,7 +31,7 @@ public static class ModelBuilderExtension
             builder.Entity<Quote>().HasKey(q => q.Id);
             builder.Entity<Quote>().Property(q => q.Id).IsRequired().HasConversion(quoteIdConverter);
             builder.Entity<Quote>().Property(q => q.Title).IsRequired();
-            builder.Entity<Quote>().Property(q => q.EventDate).IsRequired();
+            builder.Entity<Quote>().Property(q => q.EventDate).IsRequired().HasColumnType("datetime");
             builder.Entity<Quote>().Property(q => q.EventType).IsRequired().HasConversion(eSocialEventTypeConverter).HasMaxLength(50);
             builder.Entity<Quote>().Property(q => q.GuestQuantity).IsRequired();
             builder.Entity<Quote>().Property(q => q.Location).IsRequired();
