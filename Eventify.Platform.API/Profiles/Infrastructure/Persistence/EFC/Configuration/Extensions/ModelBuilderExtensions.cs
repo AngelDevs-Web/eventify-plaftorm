@@ -8,7 +8,10 @@ public static class ModelBuilderExtensions
     public static void ApplyProfilesConfiguration(this ModelBuilder builder)
     {
         builder.Entity<Profile>().HasKey(p=> p.Id);
-        builder.Entity<Profile>().Property(p => p.Id).IsRequired().ValueGeneratedNever();
+        builder.Entity<Profile>()
+            .Property(p => p.Id)
+            .IsRequired()
+            .ValueGeneratedOnAdd();
         builder.Entity<Profile>().OwnsOne(p => p.Name, n =>
         {
             n.WithOwner().HasForeignKey("Id");
