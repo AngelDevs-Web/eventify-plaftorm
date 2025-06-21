@@ -32,13 +32,13 @@ public static class ModelBuilderExtension
             builder.Entity<Quote>().Property(q => q.Id).IsRequired().HasConversion(quoteIdConverter);
             builder.Entity<Quote>().Property(q => q.Title).IsRequired();
             builder.Entity<Quote>().Property(q => q.EventDate).IsRequired();
-            builder.Entity<Quote>().Property(q => q.EventType).IsRequired().HasConversion(eSocialEventTypeConverter);
+            builder.Entity<Quote>().Property(q => q.EventType).IsRequired().HasConversion(eSocialEventTypeConverter).HasMaxLength(50);
             builder.Entity<Quote>().Property(q => q.GuestQuantity).IsRequired();
             builder.Entity<Quote>().Property(q => q.Location).IsRequired();
-            builder.Entity<Quote>().Property(q => q.HostId).IsRequired().HasConversion(hostIdConverter);
-            builder.Entity<Quote>().Property(q => q.OrganizerId).IsRequired().HasConversion(organizerIdConverter);
+            builder.Entity<Quote>().Property(q => q.HostId).IsRequired().HasConversion(hostIdConverter).HasMaxLength(50);
+            builder.Entity<Quote>().Property(q => q.OrganizerId).IsRequired().HasConversion(organizerIdConverter).HasMaxLength(50);
             builder.Entity<Quote>().Property(q => q.TotalPrice).IsRequired();
-            builder.Entity<Quote>().Property(q => q.Status).IsRequired().HasConversion(eQuoteStatusConverter);
+            builder.Entity<Quote>().Property(q => q.Status).IsRequired().HasConversion(eQuoteStatusConverter).HasMaxLength(50);
             
             // ORM Mapping Rules for Service Item
             
@@ -51,6 +51,6 @@ public static class ModelBuilderExtension
             builder.Entity<ServiceItem>().Property(s=> s.Quantity).IsRequired();
             builder.Entity<ServiceItem>().Property(s=>s.UnitPrice).IsRequired();
             builder.Entity<ServiceItem>().Property(s=>s.TotalPrice).IsRequired();
-            builder.Entity<ServiceItem>().Property(s=>s.QuoteId).HasConversion(quoteIdConverter);
+            builder.Entity<ServiceItem>().Property(s=>s.QuoteId).HasConversion(quoteIdConverter).HasMaxLength(50);
       }
 }
