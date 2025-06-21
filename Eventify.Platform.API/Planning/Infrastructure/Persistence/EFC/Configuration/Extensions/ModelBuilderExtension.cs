@@ -39,5 +39,18 @@ public static class ModelBuilderExtension
             builder.Entity<Quote>().Property(q => q.OrganizerId).IsRequired().HasConversion(organizerIdConverter);
             builder.Entity<Quote>().Property(q => q.TotalPrice).IsRequired();
             builder.Entity<Quote>().Property(q => q.Status).IsRequired().HasConversion(eQuoteStatusConverter);
+            
+            // ORM Mapping Rules for Service Item
+            
+            var serviceItemIdConverter = new ValueConverter<ServiceItemId,Guid>(
+                  v=> v.Identifier,
+                  v => new ServiceItemId(v));
+            builder.Entity<ServiceItem>().HasKey(s => s.Id);
+            builder.Entity<ServiceItem>().Property(s => s.Id).IsRequired().HasConversion(serviceItemIdConverter);
+            builder.Entity<ServiceItem>().Property(s => s.Description).IsRequired();
+            builder.Entity<ServiceItem>().Property(s=> s.Quantity).IsRequired();
+            builder.Entity<ServiceItem>().Property(s=>s.UnitPrice).IsRequired();
+            builder.Entity<ServiceItem>().Property(s=>s.TotalPrice).IsRequired();
+            builder.Entity<ServiceItem>().Property(s=>s.QuoteId).HasConversion(quoteIdConverter);
       }
 }

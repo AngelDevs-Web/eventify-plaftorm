@@ -58,6 +58,10 @@ builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
 builder.Services.AddScoped<IQuoteCommandService, QuoteCommandService>();
 builder.Services.AddScoped<IQuoteQueryService, QuoteQueryService>();
 
+builder.Services.AddScoped<IServiceItemRepository, ServiceItemRepository>();
+builder.Services.AddScoped<IServiceItemCommandService, ServiceItemCommandService>();
+builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
+
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
