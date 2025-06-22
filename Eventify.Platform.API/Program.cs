@@ -76,6 +76,17 @@ builder.Services.AddSwaggerGen(options => {
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// Planning Bounded Context
+
+builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.AddScoped<IQuoteCommandService, QuoteCommandService>();
+builder.Services.AddScoped<IQuoteQueryService, QuoteQueryService>();
+
+builder.Services.AddScoped<IServiceItemRepository, ServiceItemRepository>();
+builder.Services.AddScoped<IServiceItemCommandService, ServiceItemCommandService>();
+builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
+
 // SocialEvents Bounded Context - Dependency Injection
 builder.Services.AddScoped<ISocialEventRepository, SocialEventRepository>();
 builder.Services.AddScoped<ISocialEventCommandService, SocialEventCommandService>();
