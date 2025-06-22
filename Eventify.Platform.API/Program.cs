@@ -7,7 +7,16 @@ using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.SocialEvents.Application.ACL;
+using Eventify.Platform.API.SocialEvents.Application.Internal.CommandServices;
+using Eventify.Platform.API.SocialEvents.Application.Internal.QueryServices;
+using Eventify.Platform.API.SocialEvents.Domain.Repositories;
+using Eventify.Platform.API.SocialEvents.Domain.Services;
+using Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Repositories;
+using Eventify.Platform.API.SocialEvents.Interfaces.ACL;
 using Microsoft.EntityFrameworkCore;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +73,12 @@ builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+// SocialEvents Bounded Context - Dependency Injection
+builder.Services.AddScoped<ISocialEventRepository, SocialEventRepository>();
+builder.Services.AddScoped<ISocialEventCommandService, SocialEventCommandService>();
+builder.Services.AddScoped<ISocialEventQueryService, SocialEventQueryService>();
+builder.Services.AddScoped<ISocialEventContextFacade, SocialEventContextFacade>();
+
 
 
 
@@ -77,6 +92,26 @@ using (var scope = app.Services.CreateScope())
 
     context.Database.EnsureCreated();
 }
+// Configure SocialEvents model at startup
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    
+    // Ensure database is created with SocialEvents configuration
+    context.Database.EnsureCreated();
+ 
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var modelBuilder = new ModelBuilder();
+    
+    Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Configuration.Extensions
+        .ModelBuilderExtensions.ApplySocialEventsConfiguration(modelBuilder);
+}
+
+
 
 // Use Swagger for API documentation if in development mode
     app.UseSwagger();
