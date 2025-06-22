@@ -48,18 +48,24 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    else if (builder.Environment.IsProduction())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
-});
-
+// Configure Database Context and Logging Levels
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddDbContext<AppDbContext>(
+        options =>
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+        });
+else if (builder.Environment.IsProduction())
+    builder.Services.AddDbContext<AppDbContext>(
+        options =>
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Error)
+                .EnableDetailedErrors();
+        });
 
 // Add Swagger/OpenAPI support
 builder.Services.AddSwaggerGen(options => {
