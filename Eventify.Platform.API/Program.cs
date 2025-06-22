@@ -3,6 +3,13 @@ using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 using Eventify.Platform.API.Planning.Domain.Repositories;
 using Eventify.Platform.API.Planning.Domain.Services;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.Profiles.Application.ACL;
+using Eventify.Platform.API.Profiles.Application.Internal.CommandServices;
+using Eventify.Platform.API.Profiles.Application.Internal.QueryServices;
+using Eventify.Platform.API.Profiles.Domain.Repositories;
+using Eventify.Platform.API.Profiles.Domain.Services;
+using Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.Profiles.Interfaces.ACL;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -61,16 +68,6 @@ builder.Services.AddSwaggerGen(options => {
 
 // Dependency Injection
 
-// Planning Bounded Context
-
-builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
-builder.Services.AddScoped<IQuoteCommandService, QuoteCommandService>();
-builder.Services.AddScoped<IQuoteQueryService, QuoteQueryService>();
-
-builder.Services.AddScoped<IServiceItemRepository, ServiceItemRepository>();
-builder.Services.AddScoped<IServiceItemCommandService, ServiceItemCommandService>();
-builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
-
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // SocialEvents Bounded Context - Dependency Injection
@@ -80,6 +77,11 @@ builder.Services.AddScoped<ISocialEventQueryService, SocialEventQueryService>();
 builder.Services.AddScoped<ISocialEventContextFacade, SocialEventContextFacade>();
 
 
+// Profiles Bounded Context
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 
 var app = builder.Build();
@@ -114,8 +116,11 @@ using (var scope = app.Services.CreateScope())
 
 
 // Use Swagger for API documentation if in development mode
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
 // Apply CORS Policy
 app.UseCors("AllowAllPolicy");
