@@ -11,8 +11,9 @@ public class ProfilesContextFacade(
     IProfileQueryService profileQueryService)
     : IProfilesContextFacade
 {
-    public async Task<int> CreateProfile(string firstName, string lastName, string email, string street, string number, string city, string postalCode,
-        string country)
+    public async Task<int> CreateProfile(string firstName, string lastName, string email, string street, string number,
+        string city, string postalCode,
+        string country, string role)
     {
         var createProfileCommand = new CreateProfileCommand(
             firstName,
@@ -22,7 +23,8 @@ public class ProfilesContextFacade(
             number,
             city,
             postalCode,
-            country);
+            country,
+            Enum.TryParse<TypeProfile>(role, out var type) ? type : TypeProfile.Organizer);
         var profile = await profileCommandService.Handle(createProfileCommand);
         return profile?.Id ?? 0;
     }
@@ -32,5 +34,19 @@ public class ProfilesContextFacade(
         var getProfileByEmailQuery = new GetProfileByEmailQuery(new EmailAddress(email));
         var profile = await profileQueryService.Handle(getProfileByEmailQuery);
         return profile?.Id ?? 0;
+    }
+
+    public async Task<bool> ProfileExists(int profileId)
+    {
+        var query = new GetProfileByIdQuery(profileId);
+        var profile = await profileQueryService.Handle(query);
+        return profile != null;
+    }
+
+    public async Task<bool> ProfileExistsWithRole(int profileId, TypeProfile role)
+    {
+        var query = new GetProfileByIdQuery(profileId);
+        var profile = await profileQueryService.Handle(query);
+        return profile is not null && profile.Role == role;
     }
 }

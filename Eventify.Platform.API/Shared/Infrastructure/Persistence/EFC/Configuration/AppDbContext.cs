@@ -21,6 +21,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         //Apply configuration for the Profiles bounded context
         builder.ApplyProfilesConfiguration();
         
+        builder.ApplyAlbumsConfiguration();
+        
         // Use snake case naming convention for the database
         builder.UseSnakeCaseNamingConvention();
     }
