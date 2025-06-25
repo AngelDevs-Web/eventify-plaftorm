@@ -1,4 +1,6 @@
-﻿namespace Eventify.Platform.API.Profiles.Domain.Model.Commands;
+﻿using Eventify.Platform.API.Profiles.Domain.Model.ValueObjects;
+
+namespace Eventify.Platform.API.Profiles.Domain.Model.Commands;
 
 public record CreateProfileCommand(
     string FirstName,
@@ -8,4 +10,5 @@ public record CreateProfileCommand(
     string Number,
     string City,
     string PostalCode,
-    string Country);
+    string Country,
+    TypeProfile Role);
