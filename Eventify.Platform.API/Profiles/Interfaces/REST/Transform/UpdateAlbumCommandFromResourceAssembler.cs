@@ -5,8 +5,8 @@ namespace Eventify.Platform.API.Profiles.Interfaces.REST.Transform;
 
 public class UpdateAlbumCommandFromResourceAssembler
 {
-    public static UpdateAlbumCommand ToCommandFromResource(int albumId, UpdateAlbumResource resource)
+    public static UpdateAlbumCommand ToCommandFromResource(int profileId, int albumId, UpdateAlbumResource resource)
     {
-        return new UpdateAlbumCommand(albumId, resource.Name, resource.Photos);
+        return new UpdateAlbumCommand(profileId, albumId, resource.Name, resource.Photos);
     }
 }
