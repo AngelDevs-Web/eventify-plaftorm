@@ -18,4 +18,13 @@ public class AlbumQueryService(
     {
         return await albumRepository.FindByIdAsync(query.AlbumId);
     }
+    public async Task<IEnumerable<Album>> Handle(GetAlbumsByProfileIdQuery query)
+    {
+        return await albumRepository.ListByProfileIdAsync(query.ProfileId);
+    }
+
+    public async Task<Album?> Handle(GetAlbumByIdForProfileQuery query)
+    {
+        return await albumRepository.FindByIdAndProfileIdAsync(query.AlbumId, query.ProfileId);
+    }
 }
