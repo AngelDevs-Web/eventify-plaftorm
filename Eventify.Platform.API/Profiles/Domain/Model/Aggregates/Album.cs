@@ -28,4 +28,9 @@ public class Album
     public Album(CreateAlbumCommand command) : this(command.ProfileId, command.Name, command.Photos)
     {
     }
+    public void Update(string name, IEnumerable<string> photos)
+    {
+        Name = name;
+        Photos = photos.Select(url => new PhotoUrl(url)).ToList();
+    }
 }
