@@ -6,4 +6,6 @@ namespace Eventify.Platform.API.Profiles.Domain.Services;
 public interface IAlbumCommandService
 {
     Task<Album?> Handle(CreateAlbumCommand command);
+    Task<Album?> Handle(UpdateAlbumCommand command);
+    Task<bool> Handle(DeleteAlbumCommand command);
 }
