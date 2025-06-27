@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace Eventify.Platform.API.Profiles.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/profiles/{profileId:int}/albums")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Album Endpoints.")]
 public class AlbumsController(
@@ -31,11 +31,11 @@ public class AlbumsController(
     }
     
     [HttpGet]
-    [SwaggerOperation("Get All Albums", "Get all albums.", OperationId = "GetAllAlbums")]
+    [SwaggerOperation("Get All Albums", "Get all albums for a profile.", OperationId = "GetAllAlbums")]
     [SwaggerResponse(200, "The albums were found.", typeof(IEnumerable<AlbumResource>))]
-    public async Task<IActionResult> GetAllAlbums()
+    public async Task<IActionResult> GetAllAlbums(int profileId)
     {
-        var query = new GetAllAlbumsQuery();
+        var query = new GetAlbumsByProfileIdQuery(profileId);
         var albums = await albumQueryService.Handle(query);
         var resources = albums.Select(AlbumResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
@@ -45,9 +45,9 @@ public class AlbumsController(
     [SwaggerOperation("Get Album by Id", "Get an album by its identifier.", OperationId = "GetAlbumById")]
     [SwaggerResponse(200, "The album was found.", typeof(AlbumResource))]
     [SwaggerResponse(404, "The album was not found.")]
-    public async Task<IActionResult> GetAlbumById(int albumId)
+    public async Task<IActionResult> GetAlbumById(int profileId, int albumId)
     {
-        var query = new GetAlbumByIdQuery(albumId);
+        var query = new GetAlbumByIdForProfileQuery(profileId, albumId);
         var album = await albumQueryService.Handle(query);
         if (album is null) return NotFound();
         var albumResource = AlbumResourceFromEntityAssembler.ToResourceFromEntity(album);
@@ -57,9 +57,9 @@ public class AlbumsController(
     [SwaggerOperation("Update Album", "Update an existing album.", OperationId = "UpdateAlbum")]
     [SwaggerResponse(200, "The album was updated.", typeof(AlbumResource))]
     [SwaggerResponse(404, "The album was not found.")]
-    public async Task<IActionResult> UpdateAlbum(int albumId, UpdateAlbumResource resource)
+    public async Task<IActionResult> UpdateAlbum(int profileId, int albumId, UpdateAlbumResource resource)
     {
-        var command = UpdateAlbumCommandFromResourceAssembler.ToCommandFromResource(albumId, resource);
+        var command = UpdateAlbumCommandFromResourceAssembler.ToCommandFromResource(profileId, albumId, resource);
         var album = await albumCommandService.Handle(command);
         if (album is null) return NotFound();
         var albumResource = AlbumResourceFromEntityAssembler.ToResourceFromEntity(album);
@@ -70,9 +70,9 @@ public class AlbumsController(
     [SwaggerOperation("Delete Album", "Delete an album.", OperationId = "DeleteAlbum")]
     [SwaggerResponse(204, "The album was deleted.")]
     [SwaggerResponse(404, "The album was not found.")]
-    public async Task<IActionResult> DeleteAlbum(int albumId)
+    public async Task<IActionResult> DeleteAlbum(int profileId, int albumId)
     {
-        var command = new DeleteAlbumCommand(albumId);
+        var command = new DeleteAlbumCommand(profileId, albumId);
         var result = await albumCommandService.Handle(command);
         if (!result) return NotFound();
         return NoContent();
