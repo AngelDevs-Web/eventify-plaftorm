@@ -52,5 +52,40 @@ public static class ModelBuilderExtension
             builder.Entity<ServiceItem>().Property(s=>s.UnitPrice).IsRequired();
             builder.Entity<ServiceItem>().Property(s=>s.TotalPrice).IsRequired();
             builder.Entity<ServiceItem>().Property(s=>s.QuoteId).HasConversion(quoteIdConverter).HasMaxLength(50);
+            
+            // ORM Mapping Rules for Social Event
+            //SocialEvent ORM Mapping Rules
+            var socialEventIdConverter = new ValueConverter<SocialEventId, Guid>(
+                  v => v.IdSocialEvent,
+                  v => new SocialEventId(v));
+
+            var socialEventTitleConverter = new ValueConverter<SocialEventTitle, string>(
+                  v => v.Title,
+                  v => new SocialEventTitle(v));
+
+            var socialEventDateConverter = new ValueConverter<SocialEventDate, DateTime>(
+                  v => v.Date,
+                  v => new SocialEventDate(v));
+
+            var customerNameConverter = new ValueConverter<CustomerName, string>(
+                  v => v.NameCustomer,
+                  v => new CustomerName(v));
+
+            var socialEventPlaceConverter = new ValueConverter<SocialEventPlace, string>(
+                  v => v.Place,
+                  v => new SocialEventPlace(v));
+
+            var socialEventStatusConverter = new ValueConverter<EStatusType, string>(
+                  v => v.ToString(),
+                  v => Enum.Parse<EStatusType>(v));
+
+            builder.Entity<SocialEvent>().HasKey(se => se.Id);
+            builder.Entity<SocialEvent>().Property(se => se.Id).IsRequired().HasConversion(socialEventIdConverter);
+            builder.Entity<SocialEvent>().Property(se => se.Title).IsRequired().HasConversion(socialEventTitleConverter).HasColumnName("EventTitle").HasMaxLength(200);
+            builder.Entity<SocialEvent>().Property(se => se.EventDate).IsRequired().HasConversion(socialEventDateConverter).HasColumnName("EventDate").HasColumnType("datetime");
+            builder.Entity<SocialEvent>().Property(se => se.NameCustomer).HasConversion(customerNameConverter).HasColumnName("CustomerFirstName").HasMaxLength(100);
+            builder.Entity<SocialEvent>().Property(se => se.Place).IsRequired().HasConversion(socialEventPlaceConverter).HasColumnName("Location").HasMaxLength(300);
+            builder.Entity<SocialEvent>().Property(se => se.Status).IsRequired().HasConversion(socialEventStatusConverter).HasMaxLength(50);
+            
       }
 }
