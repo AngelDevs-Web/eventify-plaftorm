@@ -1,8 +1,7 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
-using Eventify.Platform.API.SocialEvents.Interfaces.REST.Resources;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Interfaces.REST.Resources;
 
-namespace Eventify.Platform.API.SocialEvents.Interfaces.REST.Transform;
+namespace Eventify.Platform.API.Planning.Interfaces.REST.Transform;
 
 public static class UpdateSocialEventCommandFromResourceAssembler
 {
