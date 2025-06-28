@@ -17,7 +17,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.ApplyPlanningConfiguration();
+        ModelBuilderExtension.ApplyPlanningConfiguration(builder);
         // Use snake case naming convention for the database
         builder.UseSnakeCaseNamingConvention();
     }
