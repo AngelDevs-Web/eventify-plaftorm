@@ -1,7 +1,7 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
 
-namespace Eventify.Platform.API.SocialEvents.Domain.Services;
+namespace Eventify.Platform.API.Planning.Domain.Services;
 
 public interface ISocialEventCommandService
 {
