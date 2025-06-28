@@ -1,6 +1,6 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
 
-namespace Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
+namespace Eventify.Platform.API.Planning.Domain.Model.Commands;
 
 public record UpdateSocialEventCommand(
     int Id,
