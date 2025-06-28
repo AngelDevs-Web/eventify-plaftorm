@@ -1,3 +1,8 @@
+using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
+using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
+using Eventify.Platform.API.Planning.Domain.Repositories;
+using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -36,18 +41,24 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    else if (builder.Environment.IsProduction())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
-});
-
+// Configure Database Context and Logging Levels
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddDbContext<AppDbContext>(
+        options =>
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
+        });
+else if (builder.Environment.IsProduction())
+    builder.Services.AddDbContext<AppDbContext>(
+        options =>
+        {
+            options.UseMySQL(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Error)
+                .EnableDetailedErrors();
+        });
 
 // Add Swagger/OpenAPI support
 builder.Services.AddSwaggerGen(options => {
@@ -55,6 +66,16 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 // Dependency Injection
+
+// Planning Bounded Context
+
+builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.AddScoped<IQuoteCommandService, QuoteCommandService>();
+builder.Services.AddScoped<IQuoteQueryService, QuoteQueryService>();
+
+builder.Services.AddScoped<IServiceItemRepository, ServiceItemRepository>();
+builder.Services.AddScoped<IServiceItemCommandService, ServiceItemCommandService>();
+builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -99,11 +120,8 @@ using (var scope = app.Services.CreateScope())
 
 
 // Use Swagger for API documentation if in development mode
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 // Apply CORS Policy
 app.UseCors("AllowAllPolicy");

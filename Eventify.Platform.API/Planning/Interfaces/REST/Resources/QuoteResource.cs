@@ -1,0 +1,3 @@
+﻿namespace Eventify.Platform.API.Planning.Interfaces.REST.Resources;
+
+public record QuoteResource(string Id,string Title, string EventType, int GuestQuantity, string Location, double TotalPrice, string Status, DateTime EventDate, string OrganizerId, string HostId);
