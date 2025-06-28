@@ -1,12 +1,12 @@
 using System.Net.Mime;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Queries;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
-using Eventify.Platform.API.SocialEvents.Interfaces.REST.Resources;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Domain.Model.Queries;
+using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Interfaces.REST.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Eventify.Platform.API.SocialEvents.Interfaces.REST.Transform;
+namespace Eventify.Platform.API.Planning.Interfaces.REST.Transform;
 
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -57,7 +57,7 @@ public class SocialEventsController : ControllerBase
 
     [HttpGet("{socialEventId:int}")]
     [SwaggerOperation(
-        Summary = "Gets a social event by id",
+        Summary = "Gets a social event by IdSocialEvent",
         Description = "Gets a social event for a given social event identifier",
         OperationId = "GetSocialEventById")]
     [SwaggerResponse(200, "The social event was found", typeof(SocialEventResource))]
