@@ -1,20 +1,19 @@
+using Eventify.Platform.API.Planning.Application.ACL;
 using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
 using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 using Eventify.Platform.API.Planning.Domain.Repositories;
 using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.Planning.Interfaces.ACL;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Eventify.Platform.API.SocialEvents.Application.ACL;
-using Eventify.Platform.API.SocialEvents.Application.Internal.CommandServices;
-using Eventify.Platform.API.SocialEvents.Application.Internal.QueryServices;
-using Eventify.Platform.API.SocialEvents.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
-using Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Repositories;
-using Eventify.Platform.API.SocialEvents.Interfaces.ACL;
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.OpenApi.Models;
+
 
 
 
@@ -26,7 +25,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 builder.Services.AddEndpointsApiExplorer();
-
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
@@ -77,13 +75,13 @@ builder.Services.AddScoped<IServiceItemRepository, ServiceItemRepository>();
 builder.Services.AddScoped<IServiceItemCommandService, ServiceItemCommandService>();
 builder.Services.AddScoped<IServiceItemQueryService, ServiceItemQueryService>();
 
-// Shared Bounded Context
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-// SocialEvents Bounded Context - Dependency Injection
 builder.Services.AddScoped<ISocialEventRepository, SocialEventRepository>();
 builder.Services.AddScoped<ISocialEventCommandService, SocialEventCommandService>();
 builder.Services.AddScoped<ISocialEventQueryService, SocialEventQueryService>();
 builder.Services.AddScoped<ISocialEventContextFacade, SocialEventContextFacade>();
+
+// Shared Bounded Context
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 
@@ -98,24 +96,7 @@ using (var scope = app.Services.CreateScope())
 
     context.Database.EnsureCreated();
 }
-// Configure SocialEvents model at startup
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    
-    // Ensure database is created with SocialEvents configuration
-    context.Database.EnsureCreated();
- 
-}
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var modelBuilder = new ModelBuilder();
-    
-    Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Configuration.Extensions
-        .ModelBuilderExtensions.ApplySocialEventsConfiguration(modelBuilder);
-}
 
 
 
