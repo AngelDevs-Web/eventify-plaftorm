@@ -1,4 +1,4 @@
-namespace Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
+namespace Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
 
 public record SocialEventDate(DateTime Date)
 {
