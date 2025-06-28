@@ -27,7 +27,7 @@ public class AlbumsController(
         var album = await albumCommandService.Handle(command);
         if (album is null) return BadRequest();
         var albumResource = AlbumResourceFromEntityAssembler.ToResourceFromEntity(album);
-        return CreatedAtAction(nameof(GetAlbumById), new { albumId = album.Id }, albumResource);
+        return CreatedAtAction(nameof(GetAlbumById), new { profileId, albumId = album.Id }, albumResource);
     }
     
     [HttpGet]
