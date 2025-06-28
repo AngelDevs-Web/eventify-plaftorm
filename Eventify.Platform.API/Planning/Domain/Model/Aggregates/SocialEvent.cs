@@ -1,10 +1,15 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
-namespace Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
+
+namespace Eventify.Platform.API.Planning.Domain.Model.Aggregates;
 
 public partial class SocialEvent
 {
-    public int Id { get; }
+    protected SocialEvent()
+    {
+    }
+
+    public SocialEventId Id { get; private set; }
     public SocialEventTitle Title { get; private set; }
     public SocialEventDate EventDate { get; private set; }
     public CustomerName NameCustomer { get; private set; }
@@ -18,18 +23,12 @@ public partial class SocialEvent
     public string Location => Place.Place;
     
 
-    public SocialEvent()
-    {
-        Title = new SocialEventTitle();
-        EventDate = new SocialEventDate();
-        NameCustomer = new CustomerName();
-        Place = new SocialEventPlace();
-        Status = EStatusType.Active;
-    }
+   
     
     public SocialEvent(CreateSocialEventCommand command) 
         : this(command.EventTitle, command.EventDate, command.CustomerName, command.Location)
     {
+        Id = new SocialEventId();
     }
 
     public SocialEvent(string eventTitle, DateTime eventDate, string customerName, string location)
@@ -39,6 +38,7 @@ public partial class SocialEvent
 
     public SocialEvent(SocialEventTitle title, SocialEventDate eventDate, CustomerName customer, SocialEventPlace place, EStatusType status)
     {
+        Id = new SocialEventId();
         Title = title;
         EventDate = eventDate;
         NameCustomer = customer;
