@@ -1,11 +1,11 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Queries;
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
-using Eventify.Platform.API.SocialEvents.Interfaces.ACL;
+using Eventify.Platform.API.Planning.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Domain.Model.Queries;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
+using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Interfaces.ACL;
 
-namespace Eventify.Platform.API.SocialEvents.Application.ACL;
+namespace Eventify.Platform.API.Planning.Application.ACL;
 
 public class SocialEventContextFacade : ISocialEventContextFacade
 {
@@ -18,12 +18,18 @@ public class SocialEventContextFacade : ISocialEventContextFacade
         _socialEventCommandService = socialEventCommandService;
         _socialEventQueryService = socialEventQueryService;
     }
+    
+    
 
-    public async Task<int> CreateSocialEventAsync(string eventTitle, DateTime eventDate, string customerName, string location, EStatusType status )
+    public async Task<string> CreateSocialEventAsync(string eventTitle, DateTime eventDate, string customerName,
+        string location, EStatusType status)
     {
         var command = new CreateSocialEventCommand(eventTitle, eventDate, customerName, location, status);
         var result = await _socialEventCommandService.Handle(command);
-        return result?.Id ?? 0;
+        
+        return result?.Id.IdSocialEvent.ToString() ?? string.Empty;
+        
+        
     }
 
     public async Task<SocialEvent?> GetSocialEventByIdAsync(int socialEventId)

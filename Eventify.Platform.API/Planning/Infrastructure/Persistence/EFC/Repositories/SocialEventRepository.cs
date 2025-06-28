@@ -1,34 +1,16 @@
-
+using Eventify.Platform.API.Planning.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
+using Eventify.Platform.API.Planning.Domain.Repositories;
+using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
-using Eventify.Platform.API.SocialEvents.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Repositories;
+namespace Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 
-public class SocialEventRepository : BaseRepository<SocialEvent>, ISocialEventRepository
+public class SocialEventRepository(AppDbContext context): BaseRepository<SocialEvent>(context), ISocialEventRepository
 {
-    public SocialEventRepository(AppDbContext context) : base(context)
-    {
-        // Ensure the model is configured for SocialEvent at runtime
-        ConfigureSocialEventModel();
-    }
-
-    private void ConfigureSocialEventModel()
-    {
-        // Apply configuration at runtime if not already applied
-        var entityType = Context.Model.FindEntityType(typeof(SocialEvent));
-        if (entityType == null)
-        {
-            // Force model rebuild with our configuration
-            var modelBuilder = new ModelBuilder();
-            modelBuilder.ApplySocialEventsConfiguration();
-        }
-    }
-
+    
     public async Task<SocialEvent?> FindByEventTitleAsync(string eventTitle)
     {
         return await Context.Set<SocialEvent>()
@@ -62,4 +44,5 @@ public class SocialEventRepository : BaseRepository<SocialEvent>, ISocialEventRe
             .Where(se => se.Status == status)
             .ToListAsync();
     }
+    
 }

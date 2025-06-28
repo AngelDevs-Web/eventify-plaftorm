@@ -1,11 +1,11 @@
+using Eventify.Platform.API.Planning.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.Commands;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
+using Eventify.Platform.API.Planning.Domain.Repositories;
+using Eventify.Platform.API.Planning.Domain.Services;
 using Eventify.Platform.API.Shared.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Commands;
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
-using Eventify.Platform.API.SocialEvents.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
 
-namespace Eventify.Platform.API.SocialEvents.Application.Internal.CommandServices;
+namespace Eventify.Platform.API.Planning.Application.Internal.CommandServices;
 
 public class SocialEventCommandService : ISocialEventCommandService
 {

@@ -1,9 +1,9 @@
-using Eventify.Platform.API.SocialEvents.Domain.Model.ValueObjects;
+using Eventify.Platform.API.Planning.Domain.Model.ValueObjects;
 
-namespace Eventify.Platform.API.SocialEvents.Interfaces.REST.Resources;
+namespace Eventify.Platform.API.Planning.Interfaces.REST.Resources;
 
 public record SocialEventResource(
-    int Id,
+    string Id,
     string EventTitle,
     DateTime EventDate,
     string CustomerName,

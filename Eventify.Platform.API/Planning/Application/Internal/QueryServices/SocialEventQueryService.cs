@@ -1,11 +1,9 @@
-using System;
-using System.Linq;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Aggregates;
-using Eventify.Platform.API.SocialEvents.Domain.Model.Queries;
-using Eventify.Platform.API.SocialEvents.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
+using Eventify.Platform.API.Planning.Domain.Model.Aggregates;
+using Eventify.Platform.API.Planning.Domain.Model.Queries;
+using Eventify.Platform.API.Planning.Domain.Repositories;
+using Eventify.Platform.API.Planning.Domain.Services;
 
-namespace Eventify.Platform.API.SocialEvents.Application.Internal.QueryServices;
+namespace Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 
 public class SocialEventQueryService : ISocialEventQueryService
 {
