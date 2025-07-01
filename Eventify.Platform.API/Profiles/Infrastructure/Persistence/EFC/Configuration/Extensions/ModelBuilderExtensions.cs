@@ -64,4 +64,31 @@ public static class ModelBuilderExtensions
             p.Property(ph => ph.Url).HasColumnName("Url");
         });
     }
+    
+    public static void ApplyServiceCatalogsConfiguration(this ModelBuilder builder)
+    {
+        builder.Entity<ServiceCatalog>().HasKey(s => s.Id);
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Id)
+            .IsRequired()
+            .ValueGeneratedOnAdd();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.ProfileId)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Title)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Description)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Category)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.PriceFrom)
+            .HasColumnName("PriceFrom");
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.PriceTo)
+            .HasColumnName("PriceTo");
+    }
 }
