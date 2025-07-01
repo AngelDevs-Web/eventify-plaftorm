@@ -32,7 +32,7 @@ public class ServiceCatalogsController(
     }
 
     [HttpGet]
-    [SwaggerOperation("Get All Service Catalogs", "Get all service catalogs for a profile.", OperationId = "GetAllServiceCatalogs")]
+    [SwaggerOperation("Get All Service Catalogs by Id", "Get all service catalogs for a profile.", OperationId = "GetAllServiceCatalogs")]
     [SwaggerResponse(200, "The service catalogs were found.", typeof(IEnumerable<ServiceCatalogResource>))]
     public async Task<IActionResult> GetAllServiceCatalogs(int profileId)
     {
