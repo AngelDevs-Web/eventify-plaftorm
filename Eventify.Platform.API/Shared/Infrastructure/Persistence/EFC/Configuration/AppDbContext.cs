@@ -23,6 +23,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         builder.ApplyAlbumsConfiguration();
         
+        builder.ApplyServiceCatalogsConfiguration();
+        
         // Use snake case naming convention for the database
         builder.UseSnakeCaseNamingConvention();
     }
