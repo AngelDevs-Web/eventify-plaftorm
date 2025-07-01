@@ -67,6 +67,10 @@ builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<IAlbumCommandService, AlbumCommandService>();
 builder.Services.AddScoped<IAlbumQueryService, AlbumQueryService>();
 
+builder.Services.AddScoped<IServiceCatalogRepository, ServiceCatalogRepository>();
+builder.Services.AddScoped<IServiceCatalogCommandService, ServiceCatalogCommandService>();
+builder.Services.AddScoped<IServiceCatalogQueryService, ServiceCatalogQueryService>();
+
 var app = builder.Build();
 
 // Verify if the database exists and create it if it doesn't
