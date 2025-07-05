@@ -8,7 +8,6 @@ using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
 using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 using Eventify.Platform.API.Planning.Domain.Repositories;
 using Eventify.Platform.API.Planning.Domain.Services;
-using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Profiles.Application.ACL;
 using Eventify.Platform.API.Profiles.Application.Internal.CommandServices;
@@ -144,9 +143,6 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var modelBuilder = new ModelBuilder();
-    
-    Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Configuration.Extensions
-        .ModelBuilderExtensions.ApplySocialEventsConfiguration(modelBuilder);
 }
 
 
