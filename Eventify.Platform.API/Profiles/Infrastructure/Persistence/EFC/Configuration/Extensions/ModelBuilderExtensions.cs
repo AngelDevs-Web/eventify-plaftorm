@@ -1,5 +1,8 @@
-﻿using Eventify.Platform.API.Profiles.Domain.Model.Aggregates;
+﻿using Eventify.Platform.API.Profiles.Albums.Domain.Model.Aggregates;
+using Eventify.Platform.API.Profiles.Domain.Model.Aggregates;
+using Eventify.Platform.API.Profiles.Domain.Model.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
@@ -32,5 +35,60 @@ public static class ModelBuilderExtensions
             a.Property(a=>a.PostalCode).HasColumnName("AddressPostalCode");
             a.Property(a=>a.Country).HasColumnName("AddressCountry");
         });
+        var RoleConverter = new ValueConverter<TypeProfile,string>(
+            t=> t.ToString(),
+            t=> Enum.Parse<TypeProfile>(t));
+        builder.Entity<Profile>()
+            .Property(p => p.Role)
+            .HasConversion(RoleConverter)
+            .IsRequired();
+    }
+    public static void ApplyAlbumsConfiguration(this ModelBuilder builder)
+    {
+        builder.Entity<Album>().HasKey(a => a.Id);
+        builder.Entity<Album>()
+            .Property(a => a.Id)
+            .IsRequired()
+            .ValueGeneratedOnAdd();
+        builder.Entity<Album>()
+            .Property(a => a.Name)
+            .IsRequired();
+        builder.Entity<Album>()
+            .Property(a => a.ProfileId)
+            .IsRequired();
+        builder.Entity<Album>().OwnsMany(a => a.Photos, p =>
+        {
+            p.WithOwner().HasForeignKey("AlbumId");
+            p.Property<int>("Id");
+            p.HasKey("Id");
+            p.Property(ph => ph.Url).HasColumnName("Url");
+        });
+    }
+    
+    public static void ApplyServiceCatalogsConfiguration(this ModelBuilder builder)
+    {
+        builder.Entity<ServiceCatalog>().HasKey(s => s.Id);
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Id)
+            .IsRequired()
+            .ValueGeneratedOnAdd();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.ProfileId)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Title)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Description)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.Category)
+            .IsRequired();
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.PriceFrom)
+            .HasColumnName("PriceFrom");
+        builder.Entity<ServiceCatalog>()
+            .Property(s => s.PriceTo)
+            .HasColumnName("PriceTo");
     }
 }

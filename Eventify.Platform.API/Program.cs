@@ -105,6 +105,13 @@ builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAlbumCommandService, AlbumCommandService>();
+builder.Services.AddScoped<IAlbumQueryService, AlbumQueryService>();
+
+builder.Services.AddScoped<IServiceCatalogRepository, ServiceCatalogRepository>();
+builder.Services.AddScoped<IServiceCatalogCommandService, ServiceCatalogCommandService>();
+builder.Services.AddScoped<IServiceCatalogQueryService, ServiceCatalogQueryService>();
 
 // Operation Bounded Context
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();

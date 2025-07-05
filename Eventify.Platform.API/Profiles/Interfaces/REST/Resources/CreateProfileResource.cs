@@ -8,4 +8,5 @@ public record CreateProfileResource(
     string Number,
     string City,
     string PostalCode,
-    string Country);
+    string Country,
+    string Role);
