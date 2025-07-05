@@ -10,7 +10,7 @@ public interface IBaseRepository<TEntity>
     Task AddAsync(TEntity entity);
 
     /// <summary>
-    ///     Find entity by id
+    ///     Find entity by IdSocialEvent
     /// </summary>
     /// <param name="id">The Entity ID to Find</param>
     /// <returns>Entity object if found</returns>

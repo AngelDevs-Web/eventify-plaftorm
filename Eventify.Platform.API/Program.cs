@@ -3,10 +3,12 @@ using Eventify.Platform.API.Operation.Application.Internal.QueryService;
 using Eventify.Platform.API.Operation.Domain.Repositories;
 using Eventify.Platform.API.Operation.Domain.Services;
 using Eventify.Platform.API.Operation.infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.Planning.Application.ACL;
 using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
 using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 using Eventify.Platform.API.Planning.Domain.Repositories;
 using Eventify.Platform.API.Planning.Domain.Services;
+using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Profiles.Application.ACL;
 using Eventify.Platform.API.Profiles.Application.Internal.CommandServices;
@@ -15,18 +17,15 @@ using Eventify.Platform.API.Profiles.Domain.Repositories;
 using Eventify.Platform.API.Profiles.Domain.Services;
 using Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Profiles.Interfaces.ACL;
+using Eventify.Platform.API.Planning.Interfaces.ACL;
 using Eventify.Platform.API.Shared.Domain.Repositories;
 using Eventify.Platform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Eventify.Platform.API.SocialEvents.Application.ACL;
-using Eventify.Platform.API.SocialEvents.Application.Internal.CommandServices;
-using Eventify.Platform.API.SocialEvents.Application.Internal.QueryServices;
-using Eventify.Platform.API.SocialEvents.Domain.Repositories;
-using Eventify.Platform.API.SocialEvents.Domain.Services;
-using Eventify.Platform.API.SocialEvents.Infrastructure.Persistance.EFC.Repositories;
-using Eventify.Platform.API.SocialEvents.Interfaces.ACL;
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.OpenApi.Models;
+
 
 
 
@@ -97,6 +96,9 @@ builder.Services.AddScoped<ISocialEventRepository, SocialEventRepository>();
 builder.Services.AddScoped<ISocialEventCommandService, SocialEventCommandService>();
 builder.Services.AddScoped<ISocialEventQueryService, SocialEventQueryService>();
 builder.Services.AddScoped<ISocialEventContextFacade, SocialEventContextFacade>();
+
+// Shared Bounded Context
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 // Profiles Bounded Context
