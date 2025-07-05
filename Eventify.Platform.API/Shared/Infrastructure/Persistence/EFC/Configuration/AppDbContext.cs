@@ -1,5 +1,6 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         base.OnModelCreating(builder);
         
         // Apply configuration for the Operation bounded context
-        builder.ApplyOperationConfiguration();
+        //builder.ApplyOperationConfiguration();
         
         // Apply configuration for the Planning bounded context
         builder.ApplyPlanningConfiguration();
