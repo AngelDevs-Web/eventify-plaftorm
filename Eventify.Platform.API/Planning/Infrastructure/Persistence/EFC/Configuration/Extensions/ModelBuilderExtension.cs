@@ -13,10 +13,10 @@ public static class ModelBuilderExtension
             var quoteIdConverter = new ValueConverter<QuoteId, Guid>(
                   v => v.Identifier,
                   v => new QuoteId(v));
-            var organizerIdConverter = new ValueConverter<OrganizerId, string>(
+            var organizerIdConverter = new ValueConverter<OrganizerId, int>(
                   v => v.Identifier,
                   v => new OrganizerId(v));
-            var hostIdConverter = new ValueConverter<HostId, string>(
+            var hostIdConverter = new ValueConverter<HostId, int>(
                   v => v.Identifier,
                   v => new HostId(v));
             

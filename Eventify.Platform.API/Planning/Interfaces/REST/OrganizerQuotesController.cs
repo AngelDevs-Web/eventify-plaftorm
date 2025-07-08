@@ -22,7 +22,7 @@ public class OrganizerQuotesController(IQuoteQueryService quoteQueryService):Con
     [SwaggerOperation(Summary = "Gets quotes by Organizer Id", Description = "Gets quotes by Organizer Id",
         OperationId = "GetQuotesByOrganizerId")]
     [SwaggerResponse(StatusCodes.Status200OK, "List of quotes ", typeof(IEnumerable<QuoteResource>))]
-    public async Task<IActionResult> GetQuotesByOrganizerId([FromRoute] string organizerId)
+    public async Task<IActionResult> GetQuotesByOrganizerId([FromRoute] int organizerId)
     {
         var getAllQuotesByOrganizerIdQuery = new GetAllQuotesByOrganizerIdQuery(new OrganizerId(organizerId));
         var quotes = await quoteQueryService.Handle(getAllQuotesByOrganizerIdQuery);
