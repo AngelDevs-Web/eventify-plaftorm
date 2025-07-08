@@ -11,12 +11,16 @@ public partial class Review
     public ProfileId ProfileId { get; private set; }
     public SocialEventId SocialEventId { get; private set; }
 
-    public Review(string content, int rating, ProfileId profileId, SocialEventId socialEventId)
+    public Review()
+    {
+        
+    }
+    public Review(string content, int rating, int profileId, int socialEventId)
     {
         Content = content;
         Rating = rating;
-        ProfileId = profileId;
-        SocialEventId = socialEventId;
+        ProfileId = new ProfileId(profileId);
+        SocialEventId = new SocialEventId(socialEventId);
     }
 
     public Review(CreateReviewCommand command) : this( 

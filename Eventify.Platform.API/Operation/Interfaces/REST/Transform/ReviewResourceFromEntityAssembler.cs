@@ -11,7 +11,7 @@ public static class ReviewResourceFromEntityAssembler
             entity.Id,
             entity.Content,
             entity.Rating,
-            entity.ProfileId.Id,
-            entity.SocialEventId.Id);
+            entity.ProfileId.ProfileIdentifier,
+            entity.SocialEventId.SocialEventIdentifier);
     }
 }

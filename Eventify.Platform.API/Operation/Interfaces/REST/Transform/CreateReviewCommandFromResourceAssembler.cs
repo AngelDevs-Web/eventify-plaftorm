@@ -11,8 +11,8 @@ public static class CreateReviewCommandFromResourceAssembler
         return new CreateReviewCommand(
             resource.Content,
             resource.Rating,
-            new ProfileId(resource.ProfileId),
-            new SocialEventId(resource.SocialEventId)
+            resource.ProfileId,
+            resource.SocialEventId
         );
     }
 }
