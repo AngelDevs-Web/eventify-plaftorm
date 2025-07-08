@@ -4,4 +4,4 @@
 /// Represents a unique identifier for a profile.
 /// </summary>
 /// <param name="Id"></param>
-public record ProfileId(int Id);
+public record ProfileId(int ProfileIdentifier);

@@ -3,8 +3,10 @@
 namespace Eventify.Platform.API.Operation.Domain.Model.Commands;
 
 public record CreateReviewCommand(
+    String Reviewer,
+    String EventName,
+    DateTime EventDate,
     String Content,
     int Rating,
-    ProfileId ProfileId,
-    SocialEventId SocialEventId
-    );
+    DateTime ReviewDate
+);

@@ -9,10 +9,12 @@ public static class CreateReviewCommandFromResourceAssembler
     public static CreateReviewCommand ToCommandFromResource(CreateReviewResource resource)
     {
         return new CreateReviewCommand(
+            resource.Reviewer,
+            resource.EventName,
+            resource.EventDate,
             resource.Content,
             resource.Rating,
-            new ProfileId(resource.ProfileId),
-            new SocialEventId(resource.SocialEventId)
+            resource.ReviewDate
         );
     }
 }

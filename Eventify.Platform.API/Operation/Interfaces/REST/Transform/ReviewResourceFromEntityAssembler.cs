@@ -9,9 +9,11 @@ public static class ReviewResourceFromEntityAssembler
     {
         return new ReviewResource(
             entity.Id,
+            entity.Reviewer,
+            entity.EventName,
+            entity.EventDate,
             entity.Content,
             entity.Rating,
-            entity.ProfileId.Id,
-            entity.SocialEventId.Id);
+            entity.ReviewDate);
     }
 }
