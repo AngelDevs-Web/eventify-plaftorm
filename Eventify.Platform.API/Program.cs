@@ -1,3 +1,8 @@
+using Eventify.Platform.API.Operation.Application.Internal.CommandServices;
+using Eventify.Platform.API.Operation.Application.Internal.QueryService;
+using Eventify.Platform.API.Operation.Domain.Repositories;
+using Eventify.Platform.API.Operation.Domain.Services;
+using Eventify.Platform.API.Operation.infrastructure.Persistence.EFC.Repositories;
 using Eventify.Platform.API.Planning.Application.Internal.CommandServices;
 using Eventify.Platform.API.Planning.Application.Internal.QueryServices;
 using Eventify.Platform.API.Planning.Domain.Repositories;
@@ -100,6 +105,10 @@ builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
+// Operation Bounded Context
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewCommandService, ReviewCommandService>();
+builder.Services.AddScoped<IReviewQueryService,ReviewQueryService>();
 
 var app = builder.Build();
 
