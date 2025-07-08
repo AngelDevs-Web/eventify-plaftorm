@@ -193,14 +193,7 @@ builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
-// Verify if the database exists and create it if it doesn't
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
 
-    context.Database.EnsureCreated();
-}
 // Configure SocialEvents model at startup
 using (var scope = app.Services.CreateScope())
 {
@@ -211,18 +204,12 @@ using (var scope = app.Services.CreateScope())
  
 }
 
-/*using (var scope = app.Services.CreateScope())
+// Use Swagger for API documentation if in development mode
+if (app.Environment.IsDevelopment())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var modelBuilder = new ModelBuilder();
-}*/
-
-
-
-// Use Swagger for API documentation
-
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
 // Apply CORS Policy
 app.UseCors("AllowAllPolicy");

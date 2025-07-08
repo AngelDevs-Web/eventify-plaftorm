@@ -5,4 +5,7 @@ public record ProfileResource(
     string FullName,
     string Email,
     string StreetAddress,
+    string PhoneNumber,
+    string WebSite,
+    string Biography,
     string Role);
