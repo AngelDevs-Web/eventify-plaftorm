@@ -1,3 +1,15 @@
+using Eventify.Platform.API.IAM.Application.Internal.CommandServices;
+using Eventify.Platform.API.IAM.Application.Internal.OutboundServices;
+using Eventify.Platform.API.IAM.Application.Internal.QueryServices;
+using Eventify.Platform.API.IAM.Domain.Repositories;
+using Eventify.Platform.API.IAM.Domain.Services;
+using Eventify.Platform.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using Eventify.Platform.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using Eventify.Platform.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+using Eventify.Platform.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using Eventify.Platform.API.IAM.Infrastructure.Tokens.JWT.Services;
+using Eventify.Platform.API.IAM.Interfaces.ACL;
+using Eventify.Platform.API.IAM.Interfaces.ACL.Services;
 using Eventify.Platform.API.Operation.Application.Internal.CommandServices;
 using Eventify.Platform.API.Operation.Application.Internal.QueryService;
 using Eventify.Platform.API.Operation.Domain.Repositories;
@@ -72,7 +84,52 @@ else if (builder.Environment.IsProduction())
 
 // Add Swagger/OpenAPI support
 builder.Services.AddSwaggerGen(options => {
+    // General API Information
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "AngelDevs.Eventify.Platform.API",
+        Version = "v1",
+        Description = "Eventify Platform API",
+        TermsOfService = new Uri("https://angeldevs.eventify.com/tos"),
+        Contact = new OpenApiContact
+        {
+            Name = "AngelDevs",
+            Email = "contact.eventify@angeldevs.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Apache 2.0",
+            Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+        },
+    });
     options.EnableAnnotations();
+    
+    // Add Bearer Authentication for Swagger
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    // Add Security Requirement for Swagger
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    
 });
 
 // Dependency Injection
@@ -119,6 +176,21 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IReviewCommandService, ReviewCommandService>();
 builder.Services.AddScoped<IReviewQueryService, ReviewQueryService>();
 
+// IAM Bounded Context
+
+// TokenSettings Configuration
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
+
+//builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
+
 var app = builder.Build();
 
 // Verify if the database exists and create it if it doesn't
@@ -139,24 +211,24 @@ using (var scope = app.Services.CreateScope())
  
 }
 
-using (var scope = app.Services.CreateScope())
+/*using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var modelBuilder = new ModelBuilder();
-}
+}*/
 
 
 
-// Use Swagger for API documentation if in development mode
-if (app.Environment.IsDevelopment())
-{
+// Use Swagger for API documentation
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 // Apply CORS Policy
 app.UseCors("AllowAllPolicy");
 
+// Configure the IAM HTTP request pipeline.
+app.UseRequestAuthorization();
 
 app.UseHttpsRedirection();
 

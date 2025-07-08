@@ -1,4 +1,5 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
+using Eventify.Platform.API.IAM.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Planning.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Profiles.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Eventify.Platform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
@@ -32,7 +33,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         builder.ApplyServiceCatalogsConfiguration();
         
-        ModelBuilderExtension.ApplyPlanningConfiguration(builder);
+        builder.ApplyIamConfiguration();
+        
+        //ModelBuilderExtension.ApplyPlanningConfiguration(builder);
         // Use snake case naming convention for the database
         builder.UseSnakeCaseNamingConvention();
     }
