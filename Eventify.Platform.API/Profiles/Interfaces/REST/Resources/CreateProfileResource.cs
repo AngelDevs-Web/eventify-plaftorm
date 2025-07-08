@@ -9,4 +9,7 @@ public record CreateProfileResource(
     string City,
     string PostalCode,
     string Country,
+    string PhoneNumber,
+    string WebSite,
+    string Biography,
     string Role);

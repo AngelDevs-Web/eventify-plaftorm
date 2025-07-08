@@ -13,6 +13,9 @@ public interface IProfilesContextFacade
         string city,
         string postalCode,
         string country,
+        string phoneNumber,
+        string webSite,
+        string biography,
         string role);
     
     Task<int> FetchProfileIdByEmail(string email);
