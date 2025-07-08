@@ -11,4 +11,7 @@ public record CreateProfileCommand(
     string City,
     string PostalCode,
     string Country,
+    string PhoneNumber,
+    string WebSite,
+    string Biography,
     TypeProfile Role);

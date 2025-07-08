@@ -1,6 +1,8 @@
 ﻿namespace Eventify.Platform.API.Profiles.Domain.Model.ValueObjects;
 
-public class WebSiteAddress
+public record WebSiteAddress(string Url)
 {
-    
+    public WebSiteAddress() : this(string.Empty)
+    {
+    }
 }

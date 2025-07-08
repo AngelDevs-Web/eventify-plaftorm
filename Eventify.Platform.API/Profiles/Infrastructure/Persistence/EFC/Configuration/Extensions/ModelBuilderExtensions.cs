@@ -35,6 +35,21 @@ public static class ModelBuilderExtensions
             a.Property(a=>a.PostalCode).HasColumnName("AddressPostalCode");
             a.Property(a=>a.Country).HasColumnName("AddressCountry");
         });
+        builder.Entity<Profile>().OwnsOne(p => p.PhoneNumber, pn =>
+        {
+            pn.WithOwner().HasForeignKey("Id");
+            pn.Property(pn => pn.Number).HasColumnName("PhoneNumber");
+        });
+        builder.Entity<Profile>().OwnsOne(p => p.WebSite, w =>
+        {
+            w.WithOwner().HasForeignKey("Id");
+            w.Property(ws => ws.Url).HasColumnName("WebSite");
+        });
+        builder.Entity<Profile>().OwnsOne(p => p.Biography, b =>
+        {
+            b.WithOwner().HasForeignKey("Id");
+            b.Property(bi => bi.Text).HasColumnName("Biography");
+        });
         var RoleConverter = new ValueConverter<TypeProfile,string>(
             t=> t.ToString(),
             t=> Enum.Parse<TypeProfile>(t));

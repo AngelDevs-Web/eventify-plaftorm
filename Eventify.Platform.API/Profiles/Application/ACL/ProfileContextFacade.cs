@@ -11,9 +11,19 @@ public class ProfilesContextFacade(
     IProfileQueryService profileQueryService)
     : IProfilesContextFacade
 {
-    public async Task<int> CreateProfile(string firstName, string lastName, string email, string street, string number,
-        string city, string postalCode,
-        string country, string role)
+    public async Task<int> CreateProfile(
+        string firstName,
+        string lastName,
+        string email,
+        string street,
+        string number,
+        string city,
+        string postalCode,
+        string country,
+        string phoneNumber,
+        string webSite,
+        string biography,
+        string role)
     {
         var createProfileCommand = new CreateProfileCommand(
             firstName,
@@ -24,6 +34,9 @@ public class ProfilesContextFacade(
             city,
             postalCode,
             country,
+            phoneNumber,
+            webSite,
+            biography,
             Enum.TryParse<TypeProfile>(role, out var type) ? type : TypeProfile.Organizer);
         var profile = await profileCommandService.Handle(createProfileCommand);
         return profile?.Id ?? 0;

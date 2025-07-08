@@ -13,6 +13,7 @@ public class CreateProfileCommandFromResourceAssembler
             resource.FirstName, resource.LastName, resource.Email,
             resource.Street, resource.Number, resource.City,
             resource.PostalCode, resource.Country,
+            resource.PhoneNumber, resource.WebSite, resource.Biography,
             Enum.TryParse<TypeProfile>(resource.Role, out var role) ? role : TypeProfile.Hoster);
     }
 }

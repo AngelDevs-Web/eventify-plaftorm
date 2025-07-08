@@ -13,6 +13,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Puerto de tu frontend Vite
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 // Add services to the container.
 
 // Add ASP.NET Core MVC with kebab Case Route Naming Convention
@@ -71,6 +82,9 @@ builder.Services.AddScoped<IServiceCatalogRepository, ServiceCatalogRepository>(
 builder.Services.AddScoped<IServiceCatalogCommandService, ServiceCatalogCommandService>();
 builder.Services.AddScoped<IServiceCatalogQueryService, ServiceCatalogQueryService>();
 
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Verify if the database exists and create it if it doesn't
@@ -90,7 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Apply CORS Policy
-app.UseCors("AllowAllPolicy");
+app.UseCors("AllowFrontend");
 
 
 app.UseHttpsRedirection();
