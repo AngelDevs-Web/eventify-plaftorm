@@ -1,3 +1,3 @@
 ﻿namespace Eventify.Platform.API.Operation.Interfaces.REST.Resources;
 
-public record CreateReviewResource(string Content, int Rating, int ProfileId, int SocialEventId);
+public record CreateReviewResource(string Reviewer, string EventName, DateTime EventDate, string Content, int Rating, DateTime ReviewDate);
